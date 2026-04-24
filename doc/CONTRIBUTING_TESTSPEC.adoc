@@ -22,11 +22,11 @@ is found at this relative directory path:
 
 If this relative directory path is resolved against common base URI:
 
-    https://github.com/redhat-partner-solutions/vse-sync-test/tests/
+    https://github.com/openshift-kni/vse-sync-tests/tests/
 
 then this test would have an absolute URI of:
 
-    https://github.com/redhat-partner-solutions/vse-sync-test/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/PRTC-A/
+    https://github.com/openshift-kni/vse-sync-tests/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/PRTC-A/
 
 == Writing a test specification
 

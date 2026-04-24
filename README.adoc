@@ -97,7 +97,7 @@ and therefore data skips collection:
 ----
 podman run \
   -v /home/redhat/tmp/data:/usr/vse/data:Z \
-  quay.io/redhat-partner-solutions/vse-sync-test:latest ./vse-sync-test/cmd/e2e.sh
+  quay.io/redhat-partner-solutions/vse-sync-test:latest ./cmd/e2e.sh
 ----
 == MNO Support
 
@@ -120,25 +120,28 @@ podman run \
 
 For a local setup you can use to develop and integrate changes:
 
-- Clone all the repos into the same location, alongside a `data/` directory:
+- Clone the monorepo and create a `data/` directory alongside it:
 [source,shell]
 ----
 $ tree -L 1
 .
 ├── data
-├── vse-sync-collection-tools
-├── vse-sync-test
-└── vse-sync-test-report
+├── collection_tools
+├── reporting
+├── tests
+├── postprocess
+├── testdrive
+└── cmd
 ----
 
 - To clean up a previous run and do a new test run:
 [source,shell]
 ----
-$ rm -r data/*; ./vse-sync-test/cmd/e2e.sh -d 2000s ~/kubeconfig-cormorant
+$ rm -r data/*; ./cmd/e2e.sh -d 2000s ~/kubeconfig-cormorant
 ----
 
 - Omit the kubeconfig to skip data collection and re-analyse existing data in `data/collected/` :
 [source,shell]
 ----
-$ rm -r data/artefacts; rm data/*; ./vse-sync-test/cmd/e2e.sh
+$ rm -r data/artefacts; rm data/*; ./cmd/e2e.sh
 ----

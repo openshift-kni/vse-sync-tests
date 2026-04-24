@@ -1,19 +1,15 @@
 #!/bin/sh
 
-# Start from a directory containing each of the repositories:
-# `vse-sync-collection-tools`
-# `vse-sync-test`
-# `vse-sync-test-report`
-# `testdrive`
+# Start from the monorepo root directory.
 
 set -e
 set -o pipefail
 
 
 TESTROOT=$(pwd)
-COLLECTORPATH=$TESTROOT/vse-sync-collection-tools
-ANALYSERPATH=$TESTROOT/vse-sync-test
-REPORTGENPATH=$TESTROOT/vse-sync-test-report
+COLLECTORPATH=$TESTROOT/collection_tools
+ANALYSERPATH=$TESTROOT
+REPORTGENPATH=$TESTROOT/reporting
 REPORTPRIVSUTGENPATH=$TESTROOT/vse-sync-sut
 TDPATH=$ANALYSERPATH/testdrive/src
 PPPATH=$ANALYSERPATH/postprocess/src
@@ -143,9 +139,9 @@ pushd "$ANALYSERPATH" >/dev/null 2>&1
 SYNCTESTCOMMIT="$(git show -s --format=%H HEAD)"
 popd >/dev/null 2>&1
 
-BASEURL_ENV_IDS=https://github.com/redhat-partner-solutions/vse-sync-test/tree/main/tests/
-BASEURL_TEST_IDS=https://github.com/redhat-partner-solutions/vse-sync-test/tree/main/tests/
-BASEURL_SPECS=https://github.com/redhat-partner-solutions/vse-sync-test/blob/$SYNCTESTCOMMIT/
+BASEURL_ENV_IDS=https://github.com/openshift-kni/vse-sync-tests/tree/main/tests/
+BASEURL_TEST_IDS=https://github.com/openshift-kni/vse-sync-tests/tree/main/tests/
+BASEURL_SPECS=https://github.com/openshift-kni/vse-sync-tests/blob/$SYNCTESTCOMMIT/
 
 # Set report filename suffix based on test mode
 case "$TEST_MODE" in
@@ -173,9 +169,9 @@ EOF
 audit_container() {
     cat - << EOF
 {
-    "vse-sync-collection-tools": $(audit_repo $COLLECTORPATH),
-    "vse-sync-test": $(audit_repo $ANALYSERPATH),
-    "vse-sync-test-report": $(audit_repo $REPORTGENPATH)
+    "collection_tools": $(audit_repo $COLLECTORPATH),
+    "tests": $(audit_repo $ANALYSERPATH),
+    "reporting": $(audit_repo $REPORTGENPATH)
 }
 EOF
 }

@@ -15,8 +15,8 @@ be a symbolic link to a shared implementation in a different directory.
 
 For example:
 
-* https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/PRTC-A/testimpl.py[reference implementation], a symbolic link
-* https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/testimpl.py[shared Python implementation], the target of the symbolic link
+* https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/PRTC-A/testimpl.py[reference implementation], a symbolic link
+* https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/testimpl.py[shared Python implementation], the target of the symbolic link
 
 Reference implementations must:
 
@@ -37,8 +37,8 @@ reference implementation.
 
 An example of a reference implementation with its configuration file:
 
-* https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/PRTC-A/testimpl.py[reference implementation]
-* https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/PRTC-A/config.yaml[configuration file]
+* https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/PRTC-A/testimpl.py[reference implementation]
+* https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/DPLL-to-PHC/PRTC-A/config.yaml[configuration file]
 
 Each leaf `config.yaml` (e.g. `PRTC-A/config.yaml`) should include a top-level `display_name` string with the full human-readable test title. The `testimpl.py` reads `display_name` from the config at runtime and includes it in the JSON result at key `pdf_display_name`. `testdrive.junit.create` uses `pdf_display_name` from each test result line when building JUnit/PDF names; if absent it falls back to the raw test id.
 
@@ -173,13 +173,13 @@ existing similar reference implementations (by language, type of test, ...)
 == An example reference implementation
 
 The example demonstrated here is this
-https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/PRTC-A/testimpl.py[reference implementation]
+https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/PRTC-A/testimpl.py[reference implementation]
 (which is actually a symbolic link to this
-https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/testimpl.py[shared Python implementation]).
+https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/testimpl.py[shared Python implementation]).
 
 This reference implementation takes lines of JSON data as input. This is an
 example of data produced by a collector such as
-https://github.com/redhat-partner-solutions/vse-sync-collection-tools[vse-sync-collection-tools].
+link:../collection_tools[collection_tools].
 Alternatively your reference implementation could use system log files, for
 example those produced by `linux-ptp-daemon-container`.
 
@@ -189,8 +189,8 @@ parses and handles its input data correctly.)
 Example log files for test success and failure are provided alongside the test
 cases:
 
-* https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/examples/dpll-PRTCA-accept.dat[test success for PRTC-A only]
-* https://github.com/redhat-partner-solutions/vse-sync-test/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/examples/dpll-reject.dat[test failure]
+* https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/examples/dpll-PRTCA-accept.dat[test success for PRTC-A only]
+* https://github.com/openshift-kni/vse-sync-tests/blob/main/tests/sync/G.8272/time-error-in-locked-mode/1PPS-to-DPLL/examples/dpll-reject.dat[test failure]
 
 The following demonstrates test success with this reference implementation:
 
