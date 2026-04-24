@@ -98,7 +98,7 @@ formatters:
         - standard
         - dot
         - default
-        - prefix(github.com/redhat-partner-solutions)
+        - prefix(github.com/openshift-kni)
         - blank
       custom-order: true
   exclusions:
@@ -108,5 +108,4 @@ formatters:
       - builtin$
       - examples$
 issues:
-  new: true
-  new-from-rev: 31042cfa48077a63beb0ba0f1dd5e4aed3de6254
+  new: false
