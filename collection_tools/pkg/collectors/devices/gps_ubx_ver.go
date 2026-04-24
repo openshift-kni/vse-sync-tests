@@ -10,10 +10,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/callbacks"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/fetcher"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/callbacks"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/fetcher"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 type GPSVersions struct {

@@ -11,9 +11,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/collectors"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/constants"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/constants"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 const (

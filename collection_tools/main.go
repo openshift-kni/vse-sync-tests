@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/cmd"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/cmd"
 )
 
 func main() {

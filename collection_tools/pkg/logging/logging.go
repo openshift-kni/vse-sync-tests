@@ -7,7 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 // SetupLogging will configure the output stream and the level

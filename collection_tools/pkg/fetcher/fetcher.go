@@ -10,7 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
 )
 
 type PostProcessFuncType func(map[string]string) (map[string]any, error)

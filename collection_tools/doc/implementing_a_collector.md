@@ -75,7 +75,7 @@ package collectors
 import (
 	"fmt"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/callbacks"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/callbacks"
 )
 const (
 	AnnouncementCollectorName = "MyCustomerAnouncer"

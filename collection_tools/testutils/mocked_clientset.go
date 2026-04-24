@@ -10,7 +10,7 @@ import (
 	fakeK8s "k8s.io/client-go/kubernetes/fake"
 	"k8s.io/client-go/rest"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
 )
 
 const kubeconfigPath string = "test_files/kubeconfig"

@@ -9,8 +9,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/constants"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/verify"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/constants"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/verify"
 )
 
 var envCmd = &cobra.Command{

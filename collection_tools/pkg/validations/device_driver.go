@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/mod/semver"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/collectors/devices"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors/devices"
 )
 
 const (

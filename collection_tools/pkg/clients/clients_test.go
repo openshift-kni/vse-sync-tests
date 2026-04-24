@@ -8,7 +8,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
 )
 
 const (

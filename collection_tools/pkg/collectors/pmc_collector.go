@@ -5,11 +5,11 @@ package collectors //nolint:dupl // new collector
 import (
 	"fmt"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/callbacks"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/collectors/contexts"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/collectors/devices"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/callbacks"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors/contexts"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors/devices"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 const (

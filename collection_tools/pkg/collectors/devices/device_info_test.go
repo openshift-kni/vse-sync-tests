@@ -17,10 +17,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/tools/remotecommand"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/collectors/devices"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/constants"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/testutils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors/devices"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/constants"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/testutils"
 )
 
 const ethtoolOutput = `<ethtoolOut>

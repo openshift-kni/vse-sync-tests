@@ -5,9 +5,9 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/collectors/contexts"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors/contexts"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 var startDebug = &cobra.Command{

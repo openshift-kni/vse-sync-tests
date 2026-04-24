@@ -9,11 +9,11 @@ import (
 
 	"golang.org/x/mod/semver"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 const (
-	TGMTestIDBase   = "https://github.com/redhat-partner-solutions/vse-sync-test/tree/main/tests"
+	TGMTestIDBase   = "https://github.com/openshift-kni/vse-sync-tests/tree/main/tests"
 	TGMEnvModelPath = TGMTestIDBase + "/environment/model"
 	TGMEnvVerPath   = TGMTestIDBase + "/environment/version"
 	TGMSyncEnvPath  = TGMTestIDBase + "/sync/G.8272/environment/status"

@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/clients"
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/utils"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/clients"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
 )
 
 var dateCmd *clients.Cmd

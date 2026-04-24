@@ -1,4 +1,4 @@
-module github.com/redhat-partner-solutions/vse-sync-collection-tools
+module github.com/openshift-kni/vse-sync-tests/collection_tools
 
 go 1.24.2
 

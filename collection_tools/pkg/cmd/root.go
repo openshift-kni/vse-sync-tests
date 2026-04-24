@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/redhat-partner-solutions/vse-sync-collection-tools/pkg/logging"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/logging"
 )
 
 var (
