@@ -12,12 +12,10 @@ ENV VSE_DIR=/usr/vse
 RUN mkdir -p ${VSE_DIR}
 WORKDIR ${VSE_DIR}
 
-RUN git clone -v --depth=1 https://github.com/redhat-partner-solutions/vse-sync-test-report.git
-RUN git clone -v --depth=1 https://github.com/redhat-partner-solutions/vse-sync-test.git
+COPY . ${VSE_DIR}
 
-RUN git clone -v https://github.com/redhat-partner-solutions/vse-sync-collection-tools.git
-WORKDIR ${VSE_DIR}/vse-sync-collection-tools
+WORKDIR ${VSE_DIR}/collection_tools
 RUN go mod vendor
 
 WORKDIR ${VSE_DIR}
-CMD ["./vse-sync-test/cmd/e2e.sh", "-d", "2000s", "/usr/vse/kubeconfig"]
+CMD ["./cmd/e2e.sh", "-d", "2000s", "/usr/vse/kubeconfig"]
