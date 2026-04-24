@@ -1,0 +1,7 @@
+---
+display_name: "Verify TDEV (Time Deviation in locked mode) on path of SMA1 to DPLL in locked condition Class-C"
+requirements: G.8273.2/Class-C
+parameters:
+  transient-period/s: 300
+  min-test-duration/s: 1000
+  time-deviation-limit/%: 100

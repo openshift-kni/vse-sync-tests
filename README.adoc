@@ -1,0 +1,144 @@
+= Synchronization tests
+
+This repository contains tests for Synchronization use cases.
+
+[[dir-layout,Directory layout]]
+== Directory layout
+
+Each test case is contained in a subdirectory tree under the `tests` directory.
+A test case is identified by a directory containing a `testspec.adoc` file (its
+test specification). Any subdirectories of this directory are considered to hold
+files related to the same test case. (Test case directories do not nest.)
+
+The parent subdirectories of a test case (directories under `tests` and above
+the test case) provide directory structure; these directories may be nested to
+an arbitrary degree. They may contain other files (naturally excluding files
+named `testspec.adoc`).
+
+[[test-ids,Test identifiers]]
+== Test identifiers
+
+The relative directory path of a test case under `tests` is a locally unique
+identifier. Each relative directory path must form a valid
+https://www.rfc-editor.org/info/rfc3986[URI relative reference].
+
+Each test case also has a canonical identifier, which is an
+https://www.rfc-editor.org/info/rfc3986[absolute URI]. The canonical identifier
+is permanently associated with the test case procedure and expected behaviour as
+specified at the time the test case is first (publicly) published.
+
+*Once a canonical identifier has been published it must always refer to
+exactly the same test case procedure and expected behaviour.*
+
+All test cases are expected to share a common base URI (an
+https://www.rfc-editor.org/info/rfc3986[absolute URI]), with the canonical
+identifier formed by resolving the relative directory path against the common
+base URI (per https://www.rfc-editor.org/info/rfc3986[Reference Resolution]).
+
+== Test case files
+
+Each test case comprises a test specification with reference implementation(s).
+A test specification is a written description of the test case and procedure.
+Each reference implementation is software, codification of the test case. If
+more than one reference implementation is provided then each implementation must
+codify the same test behaviour (all reference implementations must return the
+same test result for the same test conditions/observations).
+
+== Contributing to the repo
+
+See the link:doc/CONTRIBUTING.adoc[contribution guide] for detailed instructions
+on how to get started contributing to this repo.
+
+== Using the Container
+
+A container is available that contains all the tests; it is pre-configured to do
+a reasonably long duration test run. The only input needed is a kubeconfig for the
+cluster under test. This must be mounted into the container at `/usr/vse/kubeconfig`.
+You can run the container using the example below.
+
+The container requires a minimum of 4 CPU cores and 8Gig of RAM to run
+successfully. It runs outside the cluster under test. You can access the test
+data and results by mounting a directory into the container at `/usr/vse/data`.
+For example:
+
+[source,shell]
+----
+podman run \
+  -v ~/kubeconfig:/usr/vse/kubeconfig:Z \
+  -v /home/redhat/tmp/data:/usr/vse/data:Z \
+  quay.io/redhat-partner-solutions/vse-sync-test:latest
+----
+
+gives:
+
+[source,shell]
+----
+/home/redhat/tmp/data/
+├── artefacts
+│   └── <SNIP. contents is all temporary to support execution and can be safely discarded>
+├── collected
+│   ├── collected.log
+│   ├── env.json
+│   ├── linuxptp-daemon-container.log
+│   └── repo_audit
+├── sync_test_report.xml
+└── test-report.pdf
+----
+
+== Advanced container usage
+
+If you need more capabilities then providing a different commend to the container,
+or starting a session inside it, to get access to the individual tools.
+For example to run analysis over an existing dataset stored in `~/tmp/data/`
+the follow command could be used, which omits the kubeconfig for the `e2e.sh` script
+and therefore data skips collection:
+
+[source,shell]
+----
+podman run \
+  -v /home/redhat/tmp/data:/usr/vse/data:Z \
+  quay.io/redhat-partner-solutions/vse-sync-test:latest ./vse-sync-test/cmd/e2e.sh
+----
+== MNO Support
+
+If you are looking to run the tests on a Grandmaster interface on an Multi Node Cluster we
+need to pass in an additional value to the container. We need to set the ptpNodeName,
+which is the node that has the NIC connected to the GNSS signal. The nodeName is passed as
+an environment variable.
+
+For example:
+[source,shell]
+----
+podman run \
+  -e PTPNODENAME=<nodeName>
+  -v ~/kubeconfig:/usr/vse/kubeconfig:Z \
+  -v /home/redhat/tmp/data:/usr/vse/data:Z \
+  quay.io/redhat-partner-solutions/vse-sync-test:latest
+----
+
+== Development Setup
+
+For a local setup you can use to develop and integrate changes:
+
+- Clone all the repos into the same location, alongside a `data/` directory:
+[source,shell]
+----
+$ tree -L 1
+.
+├── data
+├── vse-sync-collection-tools
+├── vse-sync-test
+└── vse-sync-test-report
+----
+
+- To clean up a previous run and do a new test run:
+[source,shell]
+----
+$ rm -r data/*; ./vse-sync-test/cmd/e2e.sh -d 2000s ~/kubeconfig-cormorant
+----
+
+- Omit the kubeconfig to skip data collection and re-analyse existing data in `data/collected/` :
+[source,shell]
+----
+$ rm -r data/artefacts; rm data/*; ./vse-sync-test/cmd/e2e.sh
+----

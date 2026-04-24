@@ -1,0 +1,18 @@
+= Contributing
+
+You can contribute new test content in two main ways:
+
+. As a test definer *specifying a test*
+. As a test developer *implementing a test*
+
+Thus, in terms of a "good PR" there are the following options:
+
+. A PR providing *test specifications* with *reference implementations*
+. A PR providing *test specifications only*
+. A PR providing *reference implementations* (for existing test specifications)
+
+For guidance on contributing a test specification see
+link:./CONTRIBUTING_TESTSPEC.adoc[this guide].
+
+For guidance on contributing a reference implementation see
+link:./CONTRIBUTING_REFIMPL.adoc[this guide].

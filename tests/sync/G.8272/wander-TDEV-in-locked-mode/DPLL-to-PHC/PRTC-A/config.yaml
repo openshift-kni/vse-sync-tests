@@ -1,0 +1,7 @@
+---
+display_name: "Verify TDEV (Time Deviation in locked mode) on path of DPLL to PHC in locked condition PRTC-A (Higher accuracy (e.g. for GNSS-based primary references))"
+requirements: G.8272/PRTC-A
+parameters:
+  transient-period/s: 300
+  min-test-duration/s: 1000
+  time-deviation-limit/%: 100

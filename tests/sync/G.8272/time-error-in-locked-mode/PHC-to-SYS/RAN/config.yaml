@@ -1,0 +1,7 @@
+---
+display_name: "Verify time error on path of PHC to system clock in locked condition RAN"
+requirements: workload/RAN
+parameters:
+  transient-period/s: 300
+  min-test-duration/s: 1000
+  time-error-limit/%: 100
