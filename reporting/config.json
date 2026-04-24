@@ -1,0 +1,21 @@
+{
+    "title": "Synchronization Test Report",
+    "subtitle": "T-GM with GNSS",
+    "repositories": {
+        "vse-sync-test.git": "/home/user/vse-sync-test/tests/"
+    },
+    "suites": {
+        "Environment": {
+            "repository": "vse-sync-test.git",
+            "baseurl": "https://github.com/redhat-partner-solutions/vse-sync-test/tree/main/tests/"
+        },
+        "T-GM Tests": {
+            "repository": "vse-sync-test.git",
+            "baseurl": "https://github.com/redhat-partner-solutions/vse-sync-test/tree/main/tests/"
+        },
+        "T-BC/T-TSC Tests": {
+            "repository": "vse-sync-test.git",
+            "baseurl": "https://github.com/redhat-partner-solutions/vse-sync-test/tree/main/tests/"
+        }
+    }
+}
