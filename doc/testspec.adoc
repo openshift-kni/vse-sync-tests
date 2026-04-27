@@ -1,0 +1,45 @@
+ifdef::env-github[]
+:important-caption: :heavy_exclamation_mark:
+endif::[]
+
+TODO: replace the text below with your test title
+
+= test title
+
+TODO: define the purpose and focus of the test
+
+IMPORTANT: It is critical to note that the results of this test are only valid
+when both the test environment and the System Under Test (SUT) have been
+independently validated. While requirements on their acceptability are not
+defined here, it is noted that they include timestamping accuracy.
+
+== Goal
+
+TODO: specify the test goal
+
+== Scope
+
+* TODO: state the scope of your test
+* TODO: state the scope of your test
+* TODO: state the scope of your test
+
+== Out of scope
+
+* Independent validation of the test environment
+* Independent validation of the SUT
+* Provision SUT
+* TODO: state what is out of scope for your test
+* TODO: state what is out of scope for your test
+* TODO: state what is out of scope for your test
+
+== Acceptance criteria
+
+. TODO: define acceptance criteria
+. TODO: define acceptance criteria
+. TODO: define acceptance criteria
+
+== Test procedure
+
+. TODO: define test steps
+. TODO: define test steps
+. TODO: define test steps

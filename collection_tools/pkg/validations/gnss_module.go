@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+package validations
+
+import (
+	"fmt"
+
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/collectors/devices"
+	"github.com/openshift-kni/vse-sync-tests/collection_tools/pkg/utils"
+)
+
+const (
+	expectedModuleName             = "ZED-F9T"
+	gnssModuleIsCorrect            = TGMEnvModelPath + "/gnss/"
+	gnssModuleIsCorrectDescription = "Verify GNSS module model"
+)
+
+type GNSSModule struct {
+	Module string `json:"module"`
+}
+
+func (gnssModule *GNSSModule) Verify() error {
+	if gnssModule.Module != expectedModuleName {
+		return utils.NewInvalidEnvError(
+			fmt.Errorf("reported gnss module is not %s", expectedModuleName),
+		)
+	}
+
+	return nil
+}
+
+func (gnssModule *GNSSModule) GetID() string {
+	return gnssModuleIsCorrect
+}
+
+func (gnssModule *GNSSModule) GetDescription() string {
+	return gnssModuleIsCorrectDescription
+}
+
+func (gnssModule *GNSSModule) GetData() any { //nolint:ireturn // data will vary for each validation
+	return gnssModule
+}
+
+func (gnssModule *GNSSModule) GetOrder() int {
+	return gnssModuleOrdering
+}
+
+func NewGNSSModule(gpsdVer *devices.GPSVersions) *GNSSModule {
+	return &GNSSModule{Module: gpsdVer.Module}
+}

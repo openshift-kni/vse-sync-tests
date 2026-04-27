@@ -1,0 +1,111 @@
+version: "2"
+linters:
+  default: all
+  disable:
+    - depguard
+    - err113
+    - exhaustruct
+    - gochecknoglobals
+    - gochecknoinits
+    - gocognit
+    - godot
+    - godox
+    - ireturn
+    - nlreturn
+    - nonamedreturns
+    - paralleltest
+    - wsl
+  settings:
+    dupl:
+      threshold: 100
+    funlen:
+      lines: 50
+      statements: 25
+    goconst:
+      min-len: 4
+      min-occurrences: 1
+    gocritic:
+      disabled-checks:
+        - dupImport
+        - octalLiteral
+      enabled-tags:
+        - diagnostic
+        - experimental
+        - opinionated
+        - performance
+        - style
+    gocyclo:
+      min-complexity: 15
+    govet:
+      enable-all: true
+      settings:
+        printf:
+          funcs:
+            - (github.com/sirupsen/logrus).Infof
+            - (github.com/sirupsen/logrus).Warnf
+            - (github.com/sirupsen/logrus).Errorf
+            - (github.com/sirupsen/logrus).Fatalf
+    lll:
+      line-length: 120
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+      allow-unused: true
+    revive:
+      rules:
+        - name: exported
+          arguments:
+            - disableStutteringCheck
+    tagliatelle:
+      case:
+        rules:
+          yaml: snake
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - goconst
+          - mnd
+        path: _test\.go
+      - linters:
+          - lll
+        source: ^(.*= (".*"|`.*`))$
+      - linters:
+          - lll
+        source: \/\/.+$
+      - linters:
+          - tagliatelle
+        source: ^.*(PPS|EEC|GNSS|GPS).*$
+      - linters:
+          - ireturn
+        source: func.*New.*Collector.*$
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofmt
+  settings:
+    gci:
+      sections:
+        - standard
+        - dot
+        - default
+        - prefix(github.com/openshift-kni)
+        - blank
+      custom-order: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  new: false
