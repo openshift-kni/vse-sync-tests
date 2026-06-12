@@ -20,20 +20,26 @@ const (
 )
 
 type DevFilesystemDPLLInfo struct {
-	Timestamp string  `fetcherKey:"date"          json:"timestamp"`
-	EECState  string  `fetcherKey:"dpll_0_state"  json:"eecstate"`
-	PPSState  string  `fetcherKey:"dpll_1_state"  json:"state"`
-	PPSOffset float64 `fetcherKey:"dpll_1_offset" json:"terror"`
+	PreferSMA1 bool
+	Timestamp  string  `fetcherKey:"date"          json:"timestamp"`
+	EECState   string  `fetcherKey:"dpll_0_state"  json:"eecstate"`
+	PPSState   string  `fetcherKey:"dpll_1_state"  json:"state"`
+	PPSOffset  float64 `fetcherKey:"dpll_1_offset" json:"terror"`
 }
 
 // AnalyserJSON returns the json expected by the analysers
 func (dpllInfo *DevFilesystemDPLLInfo) GetAnalyserFormat() ([]*callbacks.AnalyserFormatType, error) {
+	sampleID := "dpll/time-error"
+	if dpllInfo.PreferSMA1 {
+		sampleID = "dpll-sma1/time-error"
+	}
+
 	formatted := callbacks.AnalyserFormatType{
-		ID: "dpll/time-error",
+		ID: sampleID,
 		Data: map[string]any{
 			"timestamp": dpllInfo.Timestamp,
-			"eecstate":  dpllInfo.EECState,
-			"state":     dpllInfo.PPSState,
+			"eecstate":  normalizeDPLLState(dpllInfo.EECState),
+			"state":     normalizeDPLLState(dpllInfo.PPSState),
 			// Convert to nano seconds
 			"terror": dpllInfo.PPSOffset / unitConversionFactor,
 		},
@@ -98,8 +104,8 @@ func BuildFilesystemDPLLInfoFetcher(interfaceName string) error { //nolint:dupl 
 }
 
 // GetDevDPLLFilesystemInfo returns the device DPLL info for an interface.
-func GetDevDPLLFilesystemInfo(ctx clients.ExecContext, interfaceName string) (*DevFilesystemDPLLInfo, error) {
-	dpllInfo := &DevFilesystemDPLLInfo{}
+func GetDevDPLLFilesystemInfo(ctx clients.ExecContext, interfaceName string, preferSMA1 bool) (*DevFilesystemDPLLInfo, error) {
+	dpllInfo := &DevFilesystemDPLLInfo{PreferSMA1: preferSMA1}
 
 	fetcherInst, fetchedInstanceOk := dpllFSFetcher[interfaceName]
 	if !fetchedInstanceOk {
@@ -120,53 +126,38 @@ func GetDevDPLLFilesystemInfo(ctx clients.ExecContext, interfaceName string) (*D
 		return dpllInfo, fmt.Errorf("failed to fetch dpllInfo %w", err)
 	}
 
+	fillFilesystemPPSState(dpllInfo, interfaceName)
+
 	return dpllInfo, nil
 }
 
+func fillFilesystemPPSState(dpllInfo *DevFilesystemDPLLInfo, interfaceName string) {
+	if normalizeDPLLState(dpllInfo.PPSState) != unknownDPLLState {
+		return
+	}
+
+	if isLockedDPLLState(dpllInfo.EECState) {
+		log.Debugf(
+			"PPS DPLL state unavailable via sysfs for %s; using EEC state %s",
+			interfaceName,
+			normalizeDPLLState(dpllInfo.EECState),
+		)
+		dpllInfo.PPSState = dpllInfo.EECState
+	}
+}
+
 func IsDPLLFileSystemPresent(ctx clients.ExecContext, interfaceName string) (bool, error) {
-	fetcherInst, err := fetcher.FetcherFactory(
-		[]*clients.Cmd{},
-		[]fetcher.AddCommandArgs{
-			{
-				Key:     "paths",
-				Command: fmt.Sprintf("ls -1 /sys/class/net/%s/device/", interfaceName),
-				Trim:    true,
-			},
-		},
+	command := fmt.Sprintf(
+		"test -f /sys/class/net/%s/device/dpll_0_state && "+
+			"test -f /sys/class/net/%s/device/dpll_1_state && "+
+			"test -f /sys/class/net/%s/device/dpll_1_offset && echo yes",
+		interfaceName, interfaceName, interfaceName,
 	)
+
+	stdout, _, err := ctx.ExecCommand([]string{"/usr/bin/sh", "-c", command})
 	if err != nil {
-		return false, fmt.Errorf("failed to build fetcher to check DPLL FS  %w", err)
+		return false, nil
 	}
 
-	type Paths struct {
-		Paths string `fetcherKey:"paths"`
-	}
-
-	paths := Paths{}
-	expected := map[string]bool{
-		"dpll_0_state":  false,
-		"dpll_1_state":  false,
-		"dpll_1_offset": false,
-	}
-
-	err = fetcherInst.Fetch(ctx, &paths)
-	if err != nil {
-		return false, fmt.Errorf("failed to check DPLL FS  %w", err)
-	}
-
-	for p := range strings.SplitSeq(paths.Paths, "\n") {
-		for expectedPath := range expected {
-			if strings.Trim(p, " ") == expectedPath {
-				expected[expectedPath] = true
-			}
-		}
-	}
-
-	for _, value := range expected {
-		if !value {
-			return false, nil
-		}
-	}
-
-	return true, nil
+	return strings.TrimSpace(stdout) == "yes", nil
 }
