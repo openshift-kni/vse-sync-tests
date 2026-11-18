@@ -60,6 +60,14 @@ GNSS_DICT = CaseValue(
     ("gnss/time-error", (Decimal("681011.839"), 5, 2)),
 )
 
+# Whole-second ISO 8601 timestamps are rejected by the GNSS parser (see
+# tests/vse_sync_pp/parsers/test_gnss.py). A rejected line must be skipped
+# rather than aborting the source: this is the shape reported in the field.
+GNSS_REJECTED = {
+    "id": "gnss/time-error",
+    "data": ["2026-10-03T03:34:46Z", "5", "13107631"],
+}
+
 
 class TestMuxed(TestCase):
     def _test(self, *cases):
@@ -94,3 +102,23 @@ class TestMuxed(TestCase):
         arrays and json objects
         """
         self._test(DPLL_DICT, GNSS_LIST)
+
+    def test_reject(self):
+        """Check that a line rejected by its parser is skipped, and does not
+        prevent subsequent lines from being yielded
+        """
+        file = StringIO("\n".join(json.dumps(c) for c in (
+            DPLL_LIST.input,
+            GNSS_REJECTED,
+            GNSS_LIST.input,
+            DPLL_DICT.input,
+        )))
+        parsers = {
+            case.input["id"]: PARSERS[case.input["id"]]()
+            for case in (DPLL_LIST, GNSS_LIST, DPLL_DICT)
+        }
+
+        self.assertEqual(
+            list(muxed(file, parsers)),
+            [DPLL_LIST.expected, GNSS_LIST.expected, DPLL_DICT.expected],
+        )
