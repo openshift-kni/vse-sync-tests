@@ -9,20 +9,38 @@ from decimal import Decimal
 log = logging.getLogger(__name__)
 
 
+def preview(line, limit=80):
+    """Return a short preview of `line` suitable for a log message"""
+    return line[:limit] + '...' if len(line) > limit else line
+
+
 def logged(file, parser):
     """Generator yielding (id_, data) for lines in `file` parsed by `parser`.
 
     `id_` is the value of the corresponding parser attribute;
     `data` is the canonical data produced by `parser` for a line.
+    Lines rejected by `parser` are logged and skipped, so that one malformed
+    line does not abort the whole source.
 
     `file` is closed just before returning.
     """
+    line_number = 0
     while True:
         line = file.readline()
+        line_number += 1
         if line == '':
             file.close()
             return
-        data = parser.parse_line(line.rstrip())
+        stripped = line.rstrip()
+        # A rejected line must not abort the source: log and skip
+        try:
+            data = parser.parse_line(stripped)
+        except ValueError as e:
+            log.warning(
+                "Skipping rejected %s line %d: %s (content: %r)",
+                parser.id_, line_number, e, preview(stripped)
+            )
+            continue
         if data is not None:
             yield (parser.id_, data)
 
@@ -40,6 +58,8 @@ def muxed(file, parsers):
     They can be in the form of a JSON array or a JSON object.
     If the data is a JSON array then the ordering must match the parser output.
     If the data is a JSON object then the names must match the parser output.
+    Lines rejected by the parser are logged and skipped, so that one malformed
+    line does not abort the whole source.
 
 
     `file` is closed just before returning.
@@ -62,10 +82,9 @@ def muxed(file, parsers):
             obj = json.loads(stripped, parse_float=Decimal)
         except json.JSONDecodeError as e:
             # Log malformed JSON with context, then skip
-            preview = stripped[:80] + '...' if len(stripped) > 80 else stripped
             log.warning(
                 "Skipping malformed JSON at line %d: %s (content: %r)",
-                line_number, e, preview
+                line_number, e, preview(stripped)
             )
             continue
 
@@ -83,5 +102,13 @@ def muxed(file, parsers):
                 data = tuple(obj['data'][name] for name in parser.elems)
             else:
                 data = obj['data']
-            parsed = parser.make_parsed(data)
+            # A rejected line must not abort the source: log and skip
+            try:
+                parsed = parser.make_parsed(data)
+            except ValueError as e:
+                log.warning(
+                    "Skipping rejected %s data at line %d: %s (content: %r)",
+                    id_, line_number, e, preview(stripped)
+                )
+                continue
             yield (id_, parsed)
